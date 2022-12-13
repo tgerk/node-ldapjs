@@ -20,12 +20,7 @@ test('adds a request and returns if no timeout', async t => {
     _queue: {
       length: 0,
       add (obj) {
-        t.same(obj, {
-          message: 'foo',
-          expect: 'bar',
-          emitter: 'baz',
-          cb: 'bif'
-        })
+        t.same(obj, ['foo', 'bar', 'baz', 'bif'])
       }
     },
     _frozen: false,
@@ -40,12 +35,7 @@ test('adds a request and returns timer not set', async t => {
     _queue: {
       length: 0,
       add (obj) {
-        t.same(obj, {
-          message: 'foo',
-          expect: 'bar',
-          emitter: 'baz',
-          cb: 'bif'
-        })
+        t.same(obj, ['foo', 'bar', 'baz', 'bif'])
       }
     },
     _frozen: false,
@@ -63,12 +53,7 @@ test('adds a request, returns true, and clears queue', t => {
     _queue: {
       length: 0,
       add (obj) {
-        t.same(obj, {
-          message: 'foo',
-          expect: 'bar',
-          emitter: 'baz',
-          cb: 'bif'
-        })
+        t.same(obj, ['foo', 'bar', 'baz', 'bif'])
       }
     },
     _frozen: false,

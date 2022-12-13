@@ -30,10 +30,6 @@ tap.beforeEach((t) => {
     t.context.socketPath = getSock()
     t.context.suffix = suffix
 
-    server.on('error', err => {
-      server.close(() => reject(err))
-    })
-
     server.bind('cn=root', function (req, res, next) {
       res.end()
       return next()
@@ -61,9 +57,6 @@ tap.beforeEach((t) => {
         socketPath: t.context.socketPath
       })
 
-      t.context.client.on('error', (err) => {
-        t.context.server.close(() => reject(err))
-      })
       t.context.client.on('connectError', (err) => {
         t.context.server.close(() => reject(err))
       })
@@ -87,7 +80,7 @@ tap.afterEach((t) => {
   })
 })
 
-tap.test('Evolution search filter (GH-3)', { only: true }, function (t) {
+tap.test('Evolution search filter (GH-3)', function (t) {
   // This is what Evolution sends, when searching for a contact 'ogo'. Wow.
   const filter =
     '(|(cn=ogo*)(givenname=ogo*)(sn=ogo*)(mail=ogo*)(member=ogo*)' +
