@@ -1658,7 +1658,7 @@ tap.test('connection timeout', function (t) {
   })
 })
 
-tap.only('emitError', function (t) {
+tap.test('emitError', function (t) {
   t.test('connectTimeout', function (t) {
     getPort().then(function (unusedPortNumber) {
       const client = ldap.createClient({

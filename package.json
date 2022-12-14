@@ -13,6 +13,14 @@
   "directories": {
     "lib": "./lib"
   },
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./promises": {
+      "default": "./lib/promises/index.js"
+    }
+  },
   "engines": {
     "node": ">=10.13.0"
   },
@@ -39,7 +47,7 @@
     "get-port": "^5.1.1",
     "highlight.js": "^11.0.1",
     "marked": "^4.0.0",
-    "tap": "16.0.1"
+    "tap": "^16.3.1"
   },
   "scripts": {
     "test": "tap --no-cov -R terse",
