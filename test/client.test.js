@@ -1367,8 +1367,8 @@ tap.test('setup action', function (t) {
     connectTimeout: parseInt(LDAP_CONNECT_TIMEOUT, 10),
     socketPath: t.context.socketPath
   })
-  setupClient.on('setup', function (clt, cb) {
-    clt.bind(BIND_DN, BIND_PW, function (err) {
+  setupClient.on('setup', function (cb) {
+    this.bind(BIND_DN, BIND_PW, function (err) {
       t.error(err)
       cb(err)
     })
@@ -1389,8 +1389,8 @@ tap.test('setup reconnect', function (t) {
     socketPath: t.context.socketPath,
     reconnect: true
   })
-  rClient.on('setup', function (clt, cb) {
-    clt.bind(BIND_DN, BIND_PW, function (err) {
+  rClient.on('setup', function (cb) {
+    this.bind(BIND_DN, BIND_PW, function (err) {
       t.error(err)
       cb(err)
     })
@@ -1446,9 +1446,9 @@ tap.test('setup abort', function (t) {
     reconnect: true
   })
   const message = "It's a trap!"
-  setupClient.on('setup', function (clt, cb) {
+  setupClient.on('setup', function (cb) {
     // simulate failure
-    t.ok(clt)
+    t.same(this, setupClient)
     cb(new Error(message))
   })
   setupClient.on('setupError', function (err) {
@@ -1508,8 +1508,8 @@ tap.test('reconnect on server close', function (t) {
     socketPath: t.context.socketPath,
     reconnect: true
   })
-  clt.on('setup', function (sclt, cb) {
-    sclt.bind(BIND_DN, BIND_PW, function (err) {
+  clt.on('setup', function (cb) {
+    this.bind(BIND_DN, BIND_PW, function (err) {
       t.error(err)
       cb(err)
     })
@@ -1532,8 +1532,8 @@ tap.test('no auto-reconnect on unbind', function (t) {
     socketPath: t.context.socketPath,
     reconnect: true
   })
-  clt.on('setup', function (sclt, cb) {
-    sclt.bind(BIND_DN, BIND_PW, function (err) {
+  clt.on('setup', function (cb) {
+    this.bind(BIND_DN, BIND_PW, function (err) {
       t.error(err)
       cb(err)
     })
