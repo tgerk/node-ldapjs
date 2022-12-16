@@ -647,7 +647,6 @@ tap.test('modify change plain object success', function (t) {
   })
 })
 
-// https://github.com/ldapjs/node-ldapjs/pull/435
 tap.test('can delete attributes', function (t) {
   const change = new Change({
     type: 'Delete',
@@ -900,9 +899,11 @@ tap.test('search paged', { timeout: 10000 }, function (t) {
           // another page should never be encountered
           res.removeListener('page', pageListener)
             .on('page', t2.fail.bind(null, 'unexpected page'))
-          return cb(new Error())
+          cb(new Error('halt paging'))
+          return
         }
-        return cb()
+
+        cb()
       }
     })
   })
@@ -933,19 +934,21 @@ tap.test('search paged', { timeout: 10000 }, function (t) {
     })
   })
 
-  t.test('paged - redundant control', function (t2) {
-    try {
-      t.context.client.search(SUFFIX, {
-        paged: { pageSize: 100 }
-      }, new ldap.PagedResultsControl(),
-      function (err) {
-        t.error(err)
-        t2.fail()
-      })
-    } catch (e) {
-      t2.ok(e)
-      t2.end()
-    }
+  t.test('paged - caller control ok', function (t2) {
+    t.context.client.search(
+      'cn=paged',
+      {},
+      new ldap.PagedResultsControl({ value: { size: 100 } }),
+      function (err, res) {
+        t2.error(err)
+        res.once('searchRequest', (msg) => {
+          t.context.client.abandon(msg.messageID, function (err) {
+            t2.error(err)
+            t2.end()
+          })
+        })
+      }
+    )
   })
 
   t.test('paged - handle later error', function (t2) {
@@ -973,7 +976,7 @@ tap.test('search paged', { timeout: 10000 }, function (t) {
     })
   })
 
-  tap.test('paged - search with delayed event listener binding', function (t) {
+  t.test('paged - search with delayed event listener binding', function (t) {
     t.context.client.search('cn=paged', { filter: '(objectclass=*)', paged: true }, function (err, res) {
       t.error(err)
       setTimeout(() => {

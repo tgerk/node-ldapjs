@@ -1,7 +1,7 @@
 'use strict'
 
-const { test } = require('tap')
-const CorkedEmitter = require('../lib/corked_emitter')
+const tap = require('tap')
+const CorkedEmitter = require('../../../../lib/client/search-result/corked-emitter')
 
 function gatherEventSequence (expectedNumber) {
   const gatheredEvents = []
@@ -21,7 +21,7 @@ function gatherEventSequence (expectedNumber) {
   }
 }
 
-test('normal emit flow', function (t) {
+tap.test('normal emit flow', function (t) {
   const emitter = new CorkedEmitter()
   const expectedSequence = [
     ['searchEntry', { data: 'a' }],
@@ -46,7 +46,7 @@ test('normal emit flow', function (t) {
   })
 })
 
-test('reversed listener registration', function (t) {
+tap.test('reversed listener registration', function (t) {
   const emitter = new CorkedEmitter()
   const expectedSequence = [
     ['searchEntry', { data: 'a' }],
@@ -73,7 +73,7 @@ test('reversed listener registration', function (t) {
   })
 })
 
-test('delayed listener registration', function (t) {
+tap.test('delayed listener registration', function (t) {
   const emitter = new CorkedEmitter()
   const expectedSequence = [
     ['searchEntry', { data: 'a' }],
