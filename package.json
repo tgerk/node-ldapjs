@@ -15,9 +15,11 @@
   },
   "exports": {
     ".": {
+      "types": "./lib/index.d.ts",
       "default": "./lib/index.js"
     },
     "./promises": {
+      "types": "./lib/promises/index.d.ts",
       "default": "./lib/promises/index.js"
     }
   },
