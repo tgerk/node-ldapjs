@@ -1653,7 +1653,7 @@ tap.test('connection timeout', function (t) {
     client.bind('cn=root', 'secret', function (err, res) {
       t.ok(err)
       t.type(err, Error)
-      t.equal(err.message, 'connection timeout')
+      t.equal(err.message, 'ConnectionTimeout')
       done = true
       t.notOk(res)
       t.end()
@@ -1680,7 +1680,7 @@ tap.test('emitError', function (t) {
       client.on('connectTimeout', (err) => {
         t.ok(err)
         t.type(err, Error)
-        t.equal(err.message, 'connection timeout')
+        t.equal(err.message, 'ConnectionTimeout')
         clearTimeout(timeout)
         t.end()
       })
@@ -1704,7 +1704,7 @@ tap.test('emitError', function (t) {
       client.on('error', (err) => {
         t.ok(err)
         t.type(err, Error)
-        t.equal(err.message, 'connectTimeout: connection timeout')
+        t.equal(err.message, 'connectTimeout: ConnectionTimeout')
         clearTimeout(timeout)
         t.end()
       })
